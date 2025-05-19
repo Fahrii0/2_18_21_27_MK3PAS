@@ -6,16 +6,53 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Peminjaman;
 
+/**
+ *
+ * @OA\Tag(
+ *     name="Peminjaman",
+ *     description="Operasi terkait data peminjaman"
+ * )
+ */
 class PeminjamanController extends Controller
 {
-    // GET /peminjaman - ambil semua data
+    /**
+     * @OA\Get(
+     *     path="/api/peminjaman",
+     *     tags={"Peminjaman"},
+     *     summary="Ambil semua data peminjaman",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Data berhasil diambil"
+     *     )
+     * )
+     */
     public function index()
     {
         $data = Peminjaman::all();
         return response()->json($data, 200);
     }
 
-    // GET /peminjaman/{id} - ambil 1 data berdasarkan ID
+    /**
+     * @OA\Get(
+     *     path="/api/peminjaman/{id}",
+     *     tags={"Peminjaman"},
+     *     summary="Ambil satu data peminjaman berdasarkan ID",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Data ditemukan"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Data tidak ditemukan"
+     *     )
+     * )
+     */
     public function show($id)
     {
         $data = Peminjaman::find($id);
@@ -25,7 +62,28 @@ class PeminjamanController extends Controller
         return response()->json($data, 200);
     }
 
-    // POST /peminjaman - tambah data baru
+    /**
+     * @OA\Post(
+     *     path="/api/peminjaman",
+     *     tags={"Peminjaman"},
+     *     summary="Tambah data peminjaman baru",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"user_id","item_id","tanggal_pinjam","tanggal_kembali","status"},
+     *             @OA\Property(property="user_id", type="integer", example=1),
+     *             @OA\Property(property="item_id", type="integer", example=2),
+     *             @OA\Property(property="tanggal_pinjam", type="string", format="date", example="2025-05-20"),
+     *             @OA\Property(property="tanggal_kembali", type="string", format="date", example="2025-05-27"),
+     *             @OA\Property(property="status", type="string", example="dipinjam")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Data berhasil ditambahkan"
+     *     )
+     * )
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -40,7 +98,37 @@ class PeminjamanController extends Controller
         return response()->json($data, 201);
     }
 
-    // PUT /peminjaman/{id} - update data
+    /**
+     * @OA\Put(
+     *     path="/api/peminjaman/{id}",
+     *     tags={"Peminjaman"},
+     *     summary="Update data peminjaman berdasarkan ID",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="user_id", type="integer", example=1),
+     *             @OA\Property(property="item_id", type="integer", example=2),
+     *             @OA\Property(property="tanggal_pinjam", type="string", format="date", example="2025-05-20"),
+     *             @OA\Property(property="tanggal_kembali", type="string", format="date", example="2025-05-27"),
+     *             @OA\Property(property="status", type="string", example="dikembalikan")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Data berhasil diupdate"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Data tidak ditemukan"
+     *     )
+     * )
+     */
     public function update(Request $request, $id)
     {
         $data = Peminjaman::find($id);
@@ -60,7 +148,27 @@ class PeminjamanController extends Controller
         return response()->json($data, 200);
     }
 
-    // DELETE /peminjaman/{id} - hapus data
+    /**
+     * @OA\Delete(
+     *     path="/api/peminjaman/{id}",
+     *     tags={"Peminjaman"},
+     *     summary="Hapus data peminjaman berdasarkan ID",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="Data berhasil dihapus"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Data tidak ditemukan"
+     *     )
+     * )
+     */
     public function destroy($id)
     {
         $data = Peminjaman::find($id);

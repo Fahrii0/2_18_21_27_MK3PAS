@@ -14,7 +14,7 @@
     },
     "servers": [
         {
-            "url": "http://localhost:8000/api",
+            "url": "http://localhost:8000",
             "description": "API Server"
         }
     ],
@@ -52,9 +52,191 @@
                     }
                 }
             }
+        },
+        "/api/peminjaman": {
+            "get": {
+                "tags": [
+                    "Peminjaman"
+                ],
+                "summary": "Ambil semua data peminjaman",
+                "operationId": "bad1f36b5bb62edc502ac8ae7f2a3b50",
+                "responses": {
+                    "200": {
+                        "description": "Data berhasil diambil"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Peminjaman"
+                ],
+                "summary": "Tambah data peminjaman baru",
+                "operationId": "752e4a338bd0ca9c363cf54b6528bd2b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "item_id",
+                                    "tanggal_pinjam",
+                                    "tanggal_kembali",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "item_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "tanggal_pinjam": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-20"
+                                    },
+                                    "tanggal_kembali": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-27"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "dipinjam"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Data berhasil ditambahkan"
+                    }
+                }
+            }
+        },
+        "/api/peminjaman/{id}": {
+            "get": {
+                "tags": [
+                    "Peminjaman"
+                ],
+                "summary": "Ambil satu data peminjaman berdasarkan ID",
+                "operationId": "3cef87c9ab2f9e6fa2977b99a41cb44e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data ditemukan"
+                    },
+                    "404": {
+                        "description": "Data tidak ditemukan"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Peminjaman"
+                ],
+                "summary": "Update data peminjaman berdasarkan ID",
+                "operationId": "5b7dad32120a6e657a9c1ccf1d91f249",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "item_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "tanggal_pinjam": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-20"
+                                    },
+                                    "tanggal_kembali": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-27"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "dikembalikan"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data berhasil diupdate"
+                    },
+                    "404": {
+                        "description": "Data tidak ditemukan"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Peminjaman"
+                ],
+                "summary": "Hapus data peminjaman berdasarkan ID",
+                "operationId": "81ceb76e70bc91b80a00793fcc4cbb96",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Data berhasil dihapus"
+                    },
+                    "404": {
+                        "description": "Data tidak ditemukan"
+                    }
+                }
+            }
         }
     },
     "tags": [
+        {
+            "name": "Peminjaman",
+            "description": "Operasi terkait data peminjaman"
+        },
         {
             "name": "Category",
             "description": "Category"
